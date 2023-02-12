@@ -5,12 +5,9 @@ Plug 'shaeinst/roshnivim-cs'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 
-Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
-Plug 'MunifTanjim/nui.nvim'
-Plug 'nvim-lua/plenary.nvim' 
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'MunifTanjim/nui.nvim' 
-
+" nvim-tree 
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
 
 " bufferline
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
@@ -70,7 +67,7 @@ lua << EOF
   local opts = { noremap=true, silent=true }
 
   -- nnoremap <Space><Space> :NeoTreeShowToggle<CR>
-  vim.keymap.set('n', "<Space><Space>", ":NeoTreeShowToggle<CR>", opts)
+  vim.keymap.set('n', "<Space><Space>", ":NvimTreeToggle<CR>", opts)
 
   -- set tabstop=2 
   vim.opt.tabstop = 2
@@ -99,8 +96,28 @@ EOF
 " feline setup "
 :lua require('feline').setup()
 
-" neo-tree "
-:lua require("neo-tree").setup()
+
+
+lua << EOF
+  require("nvim-tree").setup({
+    sort_by = "case_sensitive",
+    view = {
+      width = 30,
+      mappings = {
+        list = {
+          { key = "u", action = "dir_up" },
+        },
+      },
+    },
+    renderer = {
+      group_empty = true,
+    },
+    filters = {
+      dotfiles = true,
+    },
+  })
+
+EOF
 
 
 " bufferline "
