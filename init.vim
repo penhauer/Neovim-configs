@@ -1,10 +1,5 @@
 call plug#begin()
 
-" colorscheme
-Plug 'shaeinst/roshnivim-cs'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-
-
 " nvim-tree 
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
@@ -14,13 +9,9 @@ Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 " Plug 'ryanoasis/vim-devicons' Icons without colours
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 
-
-" NeoSolarized colorscheme
-Plug 'overcache/NeoSolarized'
-
-
 " statusline
 Plug 'feline-nvim/feline.nvim'
+
 
 " lspconfig plugin for neovim
 Plug 'neovim/nvim-lspconfig'
@@ -41,9 +32,9 @@ Plug 'hrsh7th/vim-vsnip-integ'
 " gitsigns
 Plug 'lewis6991/gitsigns.nvim'
 
-
 " terminal support by toggle term
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+
 
 " telescope fuzzy finder
 Plug 'nvim-lua/plenary.nvim'
@@ -53,11 +44,69 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 
+" colorschemes
+
+" catppuccin 
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+
+" tokyonight
+Plug 'shaeinst/roshnivim-cs'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+
+" NeoSolarized colorscheme
+Plug 'overcache/NeoSolarized'
+
+
+
 call plug#end()
 
 
-" general config "
-noremap <Leader>  :lua print("hello")<CR>
+
+" catppuccin
+lua << EOF
+require("catppuccin").setup({
+    flavour = "mocha", -- latte, frappe, macchiato, mocha
+    background = { -- :h background
+        light = "latte",
+        dark = "mocha",
+    },
+    transparent_background = false,
+    show_end_of_buffer = false, -- show the '~' characters after the end of buffers
+    term_colors = false,
+    dim_inactive = {
+        enabled = false,
+        shade = "dark",
+        percentage = 0.15,
+    },
+    no_italic = false, -- Force no italic
+    no_bold = false, -- Force no bold
+    styles = {
+        comments = { "italic" },
+        conditionals = { "italic" },
+        loops = {},
+        functions = {},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+    },
+    color_overrides = {},
+    custom_highlights = {},
+    integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        telescope = true,
+        notify = false,
+        mini = false,
+        -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+    },
+})
+EOF
 
 
 " or lua equivalent "
@@ -85,7 +134,9 @@ lua << EOF
   vim.opt.relativenumber = true
 
   -- set colorscheme  
-  vim.cmd("colorscheme tokyonight")
+
+  -- vim.cmd("colorscheme tokyonight")
+  vim.cmd("colorscheme catppuccin-frappe")
 
   -- 
   vim.keymap.set('n', "<Space>t", ":ToggleTerm<CR>", opts)
@@ -98,6 +149,14 @@ lua << EOF
 
   -- set noequalalways
   vim.opt.equalalways = false
+
+
+  -- clearjumps
+  -- not working! debug later
+  vim.cmd("clearjumps")
+
+  vim.keymap.set('n', "<Leader>f", "<Cmd>Telescope find_files <CR>", opts)
+
 EOF
 
 
@@ -231,6 +290,42 @@ require('lspconfig')['rust_analyzer'].setup{
       }
   }
 }
+
+local sumneko_root_path = os.getenv("HOME") .. "/.config/nvim/lua-language-server/"
+local sumneko_binary = sumneko_root_path .. "bin/lua-language-server"
+
+
+require("lspconfig")["sumneko_lua"].setup({
+    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+    capabilities = capabilities,
+    settings = {
+        Lua = {
+          runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
+            completion = {enable = true, callSnippet = "Both"},
+            diagnostics = {
+                enable = true,
+                globals = {'vim', 'describe'},
+                disable = {"lowercase-global"}
+            },
+            workspace = {
+                library = {
+                    [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                    [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                    [vim.fn.expand('/usr/share/awesome/lib')] = true
+                    -- ,
+                    --[vim.fn.expand('/home/amirmohammad/.local/share/nvim/plugged/nvim-treesitter/lua/')] = true,
+                    --[vim.fn.expand('/home/amirmohammad/.local/share/nvim/plugged/nvim-treesitter/')] = true
+                },
+                -- adjust these two values if your performance is not optimal
+                maxPreload = 2000,
+                preloadFileSize = 1000
+            }
+        }
+    },
+    on_attach = on_attach,
+    flags = lsp_flags
+})
+
 
 require('lspconfig')['clangd'].setup{
     on_attach = on_attach,
@@ -472,4 +567,14 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+
+lua << EOF
+  ts = require("ts")
+EOF
+
+
+" <C-U> cleans the selected '< '> range markers from the command prompt and lets the command to run on empty prompt see :help c_CTRL-U
+" also see https://vi.stackexchange.com/questions/8789/mode-always-seems-to-return-n
+" nnoremap <Leader>m :<C-U>ASD<CR>
+" vnoremap <Leader>m :<C-U>ASD<CR>
 
