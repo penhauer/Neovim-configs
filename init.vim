@@ -155,7 +155,14 @@ lua << EOF
   -- not working! debug later
   vim.cmd("clearjumps")
 
+  -- Telescoe find_files
   vim.keymap.set('n', "<Leader>f", "<Cmd>Telescope find_files <CR>", opts)
+
+
+  -- set scrolloff
+  -- set scrolloff = 2
+  -- set help scrolloff
+  vim.opt.scrolloff = 4
 
 EOF
 
