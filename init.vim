@@ -17,6 +17,10 @@ Plug 'feline-nvim/feline.nvim'
 Plug 'neovim/nvim-lspconfig'
 
 
+" mason
+Plug 'williamboman/mason.nvim'
+
+
 " autocompletion with cmp
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -353,6 +357,10 @@ require("lspconfig")["bashls"].setup{
 
 EOF
 
+" mason
+lua << EOF
+  require("mason").setup()
+EOF
 
 
 " autocompletion with cmp "
