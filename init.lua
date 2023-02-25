@@ -1,10 +1,7 @@
+require("plugins")
 
-lua << EOF
-  require("plugins")
-EOF
 
-" catppuccin
-lua << EOF
+-- catppuccin
 require("catppuccin").setup({
     flavour = "mocha", -- latte, frappe, macchiato, mocha
     background = { -- :h background
@@ -47,74 +44,70 @@ require("catppuccin").setup({
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
     },
 })
-EOF
 
 
-" or lua equivalent "
-
-lua << EOF
-
-  local opts = { noremap=true, silent=true }
-
-  -- nnoremap <Space><Space> :NeoTreeShowToggle<CR>
-  vim.keymap.set('n', "<Space><Space>", ":NvimTreeToggle<CR>", opts)
-
-  -- set tabstop=2 
-  vim.opt.tabstop = 2
-
-  -- set expandtab
-  vim.opt.expandtab = true
-
-  -- set shiftwidth = 2
-  vim.opt.shiftwidth = 2
-
-  -- set number
-  vim.opt.number = true
-
-  -- set relativenumber
-  vim.opt.relativenumber = true
-
-  -- set colorscheme  
-
-  -- vim.cmd("colorscheme tokyonight")
-  vim.cmd("colorscheme catppuccin-frappe")
-
-  -- 
-  vim.keymap.set('n', "<Space>t", ":ToggleTerm<CR>", opts)
-
-  -- window resizing
-  vim.keymap.set('n', "<Space>l", ":3 wincmd < <CR>", opts)
-  vim.keymap.set('n', "<Space>h", ":3 wincmd > <CR>", opts)
-  vim.keymap.set('n', "<Space>k", ":3 wincmd - <CR>", opts)
-  vim.keymap.set('n', "<C-S-j>", ":3 wincmd + <CR>", opts)
-
-  -- set noequalalways
-  vim.opt.equalalways = false
+-- or lua equivalent
 
 
-  -- clearjumps
-  -- not working! debug later
-  vim.cmd("clearjumps")
+local opts = { noremap=true, silent=true }
 
-  -- Telescoe find_files
-  vim.keymap.set('n', "<Leader>f", "<Cmd>Telescope find_files <CR>", opts)
+-- nnoremap <Space><Space> :NeoTreeShowToggle<CR>
+vim.keymap.set('n', "<Space><Space>", ":NvimTreeToggle<CR>", opts)
+
+-- set tabstop=2 
+vim.opt.tabstop = 2
+
+-- set expandtab
+vim.opt.expandtab = true
+
+-- set shiftwidth = 2
+vim.opt.shiftwidth = 2
+
+-- set number
+vim.opt.number = true
+
+-- set relativenumber
+vim.opt.relativenumber = true
+
+-- set colorscheme  
+
+-- vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme catppuccin-frappe")
+
+-- 
+vim.keymap.set('n', "<Space>t", ":ToggleTerm<CR>", opts)
+
+-- window resizing
+vim.keymap.set('n', "<Space>l", ":3 wincmd < <CR>", opts)
+vim.keymap.set('n', "<Space>h", ":3 wincmd > <CR>", opts)
+vim.keymap.set('n', "<Space>k", ":3 wincmd - <CR>", opts)
+vim.keymap.set('n', "<C-S-j>", ":3 wincmd + <CR>", opts)
+
+-- set noequalalways
+vim.opt.equalalways = false
 
 
-  -- set scrolloff
-  -- set scrolloff = 2
-  -- set help scrolloff
-  vim.opt.scrolloff = 4
+-- clearjumps
+-- not working! debug later
+vim.cmd("clearjumps")
 
-EOF
+-- Telescoe find_files
+vim.keymap.set('n', "<Leader>f", "<Cmd>Telescope find_files <CR>", opts)
+
+
+-- set scrolloff
+-- set scrolloff = 2
+-- set help scrolloff
+vim.opt.scrolloff = 4
 
 
 
-" feline setup "
-:lua require('feline').setup()
+
+-- feline
+require('feline').setup()
 
 
 
-lua << EOF
   require("nvim-tree").setup({
     sort_by = "case_sensitive",
     view = {
@@ -134,18 +127,14 @@ lua << EOF
     },
   })
 
-EOF
 
 
 " bufferline "
-lua <<EOF
   vim.opt.termguicolors = true
   require("bufferline").setup{}
-EOF
 
 
 " gopls lsp config "
-lua << EOF
   lspconfig = require "lspconfig"
   util = require "lspconfig/util"
 
@@ -162,12 +151,11 @@ lua << EOF
       },
     },
   }
-EOF
 
 
 
-" lsp config "
-lua << EOF
+-- lsp config
+
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -289,93 +277,88 @@ require("lspconfig")["bashls"].setup{
 }
 
 
-EOF
 
-" mason
-lua << EOF
+-- mason
   require("mason").setup()
-EOF
 
 
-" autocompletion with cmp "
-lua <<EOF
-  -- Setup nvim-cmp.
-  local cmp = require'cmp'
+-- autocompletion with cmp
 
-  cmp.setup({
-    snippet = {
-      -- REQUIRED - you must specify a snippet engine
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-      end,
-    },
-    window = {
-      -- completion = cmp.config.window.bordered(),
-      -- documentation = cmp.config.window.bordered(),
-    },
-    mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    }),
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
-    }, {
-      { name = 'buffer' },
-    })
+-- Setup nvim-cmp.
+local cmp = require'cmp'
+
+cmp.setup({
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+    end,
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' }, -- For vsnip users.
+    -- { name = 'luasnip' }, -- For luasnip users.
+    -- { name = 'ultisnips' }, -- For ultisnips users.
+    -- { name = 'snippy' }, -- For snippy users.
+  }, {
+    { name = 'buffer' },
   })
+})
 
-  -- Set configuration for specific filetype.
-  cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-    }, {
-      { name = 'buffer' },
-    })
+-- Set configuration for specific filetype.
+cmp.setup.filetype('gitcommit', {
+  sources = cmp.config.sources({
+    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+  }, {
+    { name = 'buffer' },
   })
+})
 
-  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline('/', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = 'buffer' }
-    }
-  })
-
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
-
-  -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  require('lspconfig')['gopls'].setup {
-    capabilities = capabilities
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
   }
+})
 
-  require("lspconfig")["bashls"].setup{
-    capabilities = capabilities
-  }
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
 
-EOF
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+require('lspconfig')['gopls'].setup {
+  capabilities = capabilities
+}
+
+require("lspconfig")["bashls"].setup{
+  capabilities = capabilities
+}
 
 
-lua<<EOF
+
 	require('gitsigns').setup {
 	  signs = {
 	    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
@@ -417,11 +400,9 @@ lua<<EOF
 	    enable = false
 	  },
 	}
-EOF
 
 
 " toggleterm" 
-lua << EOF
 
   require("toggleterm").setup{}
 
@@ -440,9 +421,7 @@ lua << EOF
     -- if you only want these mappings for toggle term use term://*toggleterm#* instead
     vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
-EOF
 
-lua <<EOF
 require('telescope').setup{
   defaults = {
     -- Default configuration for telescope goes here:
@@ -473,9 +452,7 @@ require('telescope').setup{
     -- please take a look at the readme of the extension you want to configure
   }
 }
-EOF
 
-lua << EOF
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the four listed parsers should always be installed)
   ensure_installed = { "c", "lua", "vim", "help" },
@@ -518,10 +495,8 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
-EOF
 
 
-lua << EOF
 
 local whichkey = require("which-key")
 
@@ -599,15 +574,12 @@ whichkey.setup(
     },
   }
 )
-EOF
 
 
-lua << EOF
-  ts = require("ts")
-EOF
+ts = require("ts")
 
-" <C-U> cleans the selected '< '> range markers from the command prompt and lets the command to run on empty prompt see :help c_CTRL-U
-" also see https://vi.stackexchange.com/questions/8789/mode-always-seems-to-return-n
-" nnoremap <Leader>m :<C-U>ASD<CR>
-" vnoremap <Leader>m :<C-U>ASD<CR>
+-- <C-U> cleans the selected '< '> range markers from the command prompt and lets the command to run on empty prompt see :help c_CTRL-U
+-- also see https://vi.stackexchange.com/questions/8789/mode-always-seems-to-return-n
+-- nnoremap <Leader>m :<C-U>ASD<CR> 
+-- vnoremap <Leader>m :<C-U>ASD<CR>
 
