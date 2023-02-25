@@ -1,3 +1,5 @@
+
+
 call plug#begin()
 
 " nvim-tree 
@@ -152,7 +154,7 @@ lua << EOF
   vim.keymap.set('n', "<Space>l", ":3 wincmd < <CR>", opts)
   vim.keymap.set('n', "<Space>h", ":3 wincmd > <CR>", opts)
   vim.keymap.set('n', "<Space>k", ":3 wincmd - <CR>", opts)
-  vim.keymap.set('n', "<Space>j", ":3 wincmd + <CR>", opts)
+  vim.keymap.set('n', "<C-S-j>", ":3 wincmd + <CR>", opts)
 
   -- set noequalalways
   vim.opt.equalalways = false
