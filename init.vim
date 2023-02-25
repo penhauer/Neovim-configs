@@ -1,75 +1,7 @@
 
-
-call plug#begin()
-
-" nvim-tree 
-Plug 'nvim-tree/nvim-tree.lua'
-Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
-
-" bufferline
-Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
-" Plug 'ryanoasis/vim-devicons' Icons without colours
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
-
-" statusline
-Plug 'feline-nvim/feline.nvim'
-
-
-" lspconfig plugin for neovim
-Plug 'neovim/nvim-lspconfig'
-
-
-" mason
-Plug 'williamboman/mason.nvim'
-
-
-" autocompletion with cmp
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-
-" vsinp
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
-
-
-" gitsigns
-Plug 'lewis6991/gitsigns.nvim'
-
-" terminal support by toggle term
-Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
-
-
-" telescope fuzzy finder
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
-
-" treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-" which-key
-Plug  'folke/which-key.nvim'
-
-
-" colorschemes
-
-" catppuccin 
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-
-" tokyonight
-Plug 'shaeinst/roshnivim-cs'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-
-" NeoSolarized colorscheme
-Plug 'overcache/NeoSolarized'
-
-
-
-call plug#end()
-
-
+lua << EOF
+  require("plugins")
+EOF
 
 " catppuccin
 lua << EOF
@@ -673,7 +605,6 @@ EOF
 lua << EOF
   ts = require("ts")
 EOF
-
 
 " <C-U> cleans the selected '< '> range markers from the command prompt and lets the command to run on empty prompt see :help c_CTRL-U
 " also see https://vi.stackexchange.com/questions/8789/mode-always-seems-to-return-n
