@@ -1,5 +1,7 @@
 require("plugins")
 
+require("mappings")
+
 
 -- catppuccin
 require("catppuccin").setup({
@@ -46,61 +48,6 @@ require("catppuccin").setup({
 })
 
 
--- or lua equivalent
-
-
-local opts = { noremap=true, silent=true }
-
--- nnoremap <Space><Space> :NeoTreeShowToggle<CR>
-vim.keymap.set('n', "<Space><Space>", ":NvimTreeToggle<CR>", opts)
-
--- set tabstop=2 
-vim.opt.tabstop = 2
-
--- set expandtab
-vim.opt.expandtab = true
-
--- set shiftwidth = 2
-vim.opt.shiftwidth = 2
-
--- set number
-vim.opt.number = true
-
--- set relativenumber
-vim.opt.relativenumber = true
-
--- set colorscheme  
-
--- vim.cmd("colorscheme tokyonight")
-vim.cmd("colorscheme catppuccin-frappe")
-
--- 
-vim.keymap.set('n', "<Space>t", ":ToggleTerm<CR>", opts)
-
--- window resizing
-vim.keymap.set('n', "<Space>l", ":3 wincmd < <CR>", opts)
-vim.keymap.set('n', "<Space>h", ":3 wincmd > <CR>", opts)
-vim.keymap.set('n', "<Space>k", ":3 wincmd - <CR>", opts)
-vim.keymap.set('n', "<C-S-j>", ":3 wincmd + <CR>", opts)
-
--- set noequalalways
-vim.opt.equalalways = false
-
-
--- clearjumps
--- not working! debug later
-vim.cmd("clearjumps")
-
--- Telescoe find_files
-vim.keymap.set('n', "<Leader>f", "<Cmd>Telescope find_files <CR>", opts)
-
-
--- set scrolloff
--- set scrolloff = 2
--- set help scrolloff
-vim.opt.scrolloff = 4
-
-
 
 
 -- feline
@@ -108,178 +55,32 @@ require('feline').setup()
 
 
 
-  require("nvim-tree").setup({
-    sort_by = "case_sensitive",
-    view = {
-      width = 35,
-      mappings = {
-        list = {
-          { key = "u", action = "dir_up" },
-        },
-      },
-      side = "right"
-    },
-    renderer = {
-      group_empty = true,
-    },
-    filters = {
-      dotfiles = true,
-    },
-  })
-
-
-
-" bufferline "
-  vim.opt.termguicolors = true
-  require("bufferline").setup{}
-
-
-" gopls lsp config "
-  lspconfig = require "lspconfig"
-  util = require "lspconfig/util"
-
-  lspconfig.gopls.setup {
-    cmd = {"gopls", "serve"},
-    filetypes = {"go", "gomod"},
-    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
-    settings = {
-      gopls = {
-        analyses = {
-          unusedparams = true,
-        },
-        staticcheck = true,
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    width = 35,
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
       },
     },
-  }
-
-
-
--- lsp config
-
--- Mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  -- vim.api.nvim_set_keymap('n', 'gd', vim.lsp.buf.definition(), bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, bufopts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
-end
-
-local lsp_flags = {
-  -- This is the default in Nvim 0.7+
-  debounce_text_changes = 150,
-}
-require('lspconfig')['pyright'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
-require('lspconfig')['tsserver'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
-require('lspconfig')['rust_analyzer'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    -- Server-specific settings...
-    cmd = {"/home/amirmohammad/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rust-analyzer"},
-    settings = {
-      ["rust-analyzer"] = {
-        imports = {
-          granularity = {
-            group = "module",
-          },
-          prefix = "self",
-        },
-        cargo = {
-          buildScripts = {
-            enable = true,
-          },
-        },
-        procMacro = {
-          enable = true
-        },
-      }
-  }
-}
-
-local sumneko_root_path = os.getenv("HOME") .. "/.config/nvim/lua-language-server/"
-local sumneko_binary = sumneko_root_path .. "bin/lua-language-server"
-
-
-require("lspconfig")["sumneko_lua"].setup({
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-          runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
-            completion = {enable = true, callSnippet = "Both"},
-            diagnostics = {
-                enable = true,
-                globals = {'vim', 'describe'},
-                disable = {"lowercase-global"}
-            },
-            workspace = {
-                library = {
-                    [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                    [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-                    [vim.fn.expand('/usr/share/awesome/lib')] = true
-                    -- ,
-                    --[vim.fn.expand('/home/amirmohammad/.local/share/nvim/plugged/nvim-treesitter/lua/')] = true,
-                    --[vim.fn.expand('/home/amirmohammad/.local/share/nvim/plugged/nvim-treesitter/')] = true
-                },
-                -- adjust these two values if your performance is not optimal
-                maxPreload = 2000,
-                preloadFileSize = 1000
-            }
-        }
-    },
-    on_attach = on_attach,
-    flags = lsp_flags
+    side = "left"
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
 })
 
 
-require('lspconfig')['clangd'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    root_dir = util.root_pattern('.clangd', '.clang-tidy', '.clang-format', 'compile_commands.json', 'compile_flags.txt', 'configure.ac', '.git'),
-    cmd = {"clangd-12"}
-}
+require("configs.lsp")
 
-require("lspconfig")["bashls"].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    cmd = {"bash-language-server", "start"}
-}
+-- bufferline --
+vim.opt.termguicolors = true
+require("bufferline").setup{}
 
-
-
--- mason
-  require("mason").setup()
 
 
 -- autocompletion with cmp
@@ -402,24 +203,24 @@ require("lspconfig")["bashls"].setup{
 	}
 
 
-" toggleterm" 
+-- toggleterm 
 
-  require("toggleterm").setup{}
+require("toggleterm").setup{}
 
-  function _G.set_terminal_keymaps()
-    local opts = {buffer = 0}
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
 
-    -- two consecutive escapes because some times it's needed to press one escapse in terminal
-    vim.keymap.set('t', '<esc><esc>', [[<C-\><C-n>]], opts)
+  -- two consecutive escapes because some times it's needed to press one escapse in terminal
+  vim.keymap.set('t', '<esc><esc>', [[<C-\><C-n>]], opts)
 
-    vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-    vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-    vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-    vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
-  end
-    
-    -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-    vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+end
+
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 
 require('telescope').setup{
@@ -577,6 +378,27 @@ whichkey.setup(
 
 
 ts = require("ts")
+
+
+local function open_nvim_tree(data)
+
+  local directory = vim.fn.isdirectory(data.file) == 1
+
+  if not directory then
+    return
+  end
+
+  -- change to the directory
+  vim.cmd.cd(data.file)
+
+
+  -- open the tree
+  require("nvim-tree.api").tree.open()
+end
+
+
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+
 
 -- <C-U> cleans the selected '< '> range markers from the command prompt and lets the command to run on empty prompt see :help c_CTRL-U
 -- also see https://vi.stackexchange.com/questions/8789/mode-always-seems-to-return-n

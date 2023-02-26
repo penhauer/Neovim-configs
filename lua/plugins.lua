@@ -1,5 +1,3 @@
-print("okay claling packer startup")
-
 return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -30,7 +28,8 @@ return require('packer').startup(function(use)
 
 
   use {
-    "williamboman/mason.nvim"
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
   }
 
   -- autocompletion with cmp
@@ -40,14 +39,19 @@ return require('packer').startup(function(use)
       'neovim/nvim-lspconfig'
     }
   }
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/nvim-cmp'
+
+  use {
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/nvim-cmp',
+  }
 
   -- snippet engine
-  use 'hrsh7th/cmp-vsnip'
-  use 'hrsh7th/vim-vsnip'
+  use {
+    'hrsh7th/cmp-vsnip',
+    'hrsh7th/vim-vsnip',
+  }
 
 
   use {
