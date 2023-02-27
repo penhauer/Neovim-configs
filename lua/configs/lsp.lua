@@ -83,31 +83,6 @@ require('lspconfig')['clangd'].setup {
     cmd = { "clangd-12" }
 }
 
--- require("mason-lspconfig").setup_handlers({
---     -- The first entry (without a key) will be the default handler
---     -- and will be called for each installed server that doesn't have
---     -- a dedicated handler.
---     function(server_name) -- default handler (optional)
---       require("lspconfig")[server_name].setup {
---         on_attach = on_attach,
---         flags = lsp_flags,
---         capabilities = capabilities
---       }
---     end,
---     -- Next, you can provide targeted overrides for specific servers.
---     ["lua_ls"] = function()
---       lspconfig.lua_ls.setup {
---           settings = {
---               Lua = {
---                   diagnostics = {
---                       globals = { "vim" }
---                   }
---               }
---           }
---       }
---     end,
--- })
-
 
 
 -- autocompletion with cmp
@@ -177,3 +152,30 @@ cmp.setup.cmdline(':', {
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+
+
+
+require("mason-lspconfig").setup_handlers({
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function(server_name) -- default handler (optional)
+      require("lspconfig")[server_name].setup {
+        on_attach = on_attach,
+        flags = lsp_flags,
+        capabilities = capabilities
+      }
+    end,
+    -- Next, you can provide targeted overrides for specific servers.
+    ["lua_ls"] = function()
+      lspconfig.lua_ls.setup {
+          settings = {
+              Lua = {
+                  diagnostics = {
+                      globals = { "vim" }
+                  }
+              }
+          }
+      }
+    end,
+})
