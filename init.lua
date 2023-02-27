@@ -2,6 +2,8 @@ require("plugins")
 
 require("mappings")
 
+require("options")
+
 
 -- catppuccin
 require("catppuccin").setup({

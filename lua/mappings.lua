@@ -1,4 +1,4 @@
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 
 -- window resizing
 -- only works with alacritty and no tmux
@@ -13,39 +13,16 @@ function is_available(plugin)
   return true
 end
 
--- NeoTree
--- todo: refactor this
-opts.desc = "Toggle Explorer"
-vim.keymap.set('n', "<leader>e", "<cmd>NvimTreeToggle<CR>", opts)
-opts.desc = nil
+vim.keymap.set('n', "<LEADER>e", "<CMD>NvimTreeToggle<CR>",
+    { noremap = true, silent = true, desc = "Toggle Explorer" })
 
 
+vim.keymap.set('n', "<LEADER>tf", "<CMD>ToggleTerm direction=float<CR>",
+    { noremap = true, silent = true, desc = "toggle Terminal Float" })
+vim.keymap.set('n', "<LEADER>th", "<CMD>ToggleTerm size=20 direction=horizontal<CR>",
+    { noremap = true, silent = true, desc = "toggle Terminal Horizontally" })
+vim.keymap.set('n', "<LEADER>tv", "<CMD>ToggleTerm size=80 direction=vertical<CR>",
+    { noremap = true, silent = true, desc = "toggle Terminal Vertically" })
 
-vim.opt.tabstop = 2
-
-
-vim.opt.expandtab = true
-
-vim.opt.shiftwidth = 2
-
-vim.opt.number = true
-
-vim.opt.relativenumber = true
-
-vim.cmd("colorscheme catppuccin-frappe")
-
-
-vim.keymap.set('n', "<Space>t", ":ToggleTerm<CR>", opts)
-
-vim.opt.equalalways = false
-
-
--- clearjumps
--- not working! debug later
-vim.cmd("clearjumps")
-
-
-vim.keymap.set('n', "<Leader>f", "<Cmd>Telescope find_files <CR>", opts)
-
-
-vim.opt.scrolloff = 4
+vim.keymap.set('n', "<LEADER>ff", "<Cmd>Telescope find_files<CR>",
+    { noremap = true, silent = true, desc = "Telescope Find Files with" })
