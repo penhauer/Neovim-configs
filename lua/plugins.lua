@@ -81,6 +81,11 @@ return require('packer').startup(function(use)
   }
 
 
+  use {
+    'numToStr/Comment.nvim',
+  }
+
+
 -- " telescope fuzzy finder
 -- Plug 'nvim-lua/plenary.nvim'
 -- Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
