@@ -54,6 +54,10 @@ return require('packer').startup(function(use)
     'hrsh7th/nvim-cmp',
   }
 
+  use {
+    'onsails/lspkind.nvim'
+  }
+
   -- snippet engine
   use {
     'hrsh7th/cmp-vsnip',
@@ -84,12 +88,6 @@ return require('packer').startup(function(use)
   use {
     'numToStr/Comment.nvim',
   }
-
-
--- " telescope fuzzy finder
--- Plug 'nvim-lua/plenary.nvim'
--- Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
-
 
   use {
     'nvim-treesitter/nvim-treesitter',
