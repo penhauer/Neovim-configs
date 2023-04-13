@@ -6,6 +6,7 @@ require("options")
 
 require("configs.comment");
 
+require("configs.noice");
 
 -- catppuccin
 require("catppuccin").setup({

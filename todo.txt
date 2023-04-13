@@ -1,0 +1,7 @@
+
+
+plugins to add:
+- dressing
+- lspsaga
+- diffview
+- noice.nvim

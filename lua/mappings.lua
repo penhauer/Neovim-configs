@@ -24,5 +24,8 @@ vim.keymap.set('n', "<LEADER>th", "<CMD>ToggleTerm size=20 direction=horizontal<
 vim.keymap.set('n', "<LEADER>tv", "<CMD>ToggleTerm size=80 direction=vertical<CR>",
     { noremap = true, silent = true, desc = "toggle Terminal Vertically" })
 
+vim.keymap.set('n', "<LEADER>tl", "<Cmd>Telescope <CR>",
+    { noremap = true, silent = true, desc = "Telescope" })
+
 vim.keymap.set('n', "<LEADER>ff", "<Cmd>Telescope find_files<CR>",
     { noremap = true, silent = true, desc = "Telescope Find Files with" })
