@@ -155,6 +155,24 @@ vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 require('telescope').setup{
   defaults = {
+    -- layout_strategy = "center",
+    -- layout_strategy = "vertical",
+    layout_config = {
+      -- center = {
+      --   width = 0.9,
+      --   height = 0.5,
+      -- },
+      vertical = { 
+        width = 0.8,
+        hieght = 0.95,
+        prompt_position='top',
+        preview_width=0.7,
+      },
+    },
+
+
+    -- theme = "dropdown", ---@type telescope_themes
+
     -- Default configuration for telescope goes here:
     -- config_key = value,
     mappings = {
@@ -164,7 +182,11 @@ require('telescope').setup{
         -- e.g. git_{create, delete, ...}_branch for the git_branches picker
         ["<C-h>"] = "which_key"
       }
-    }
+    },
+    -- layout_config = {
+    --   vertical = { width = 0.8 }
+    --   -- other layout configuration here
+    -- },
   },
   pickers = {
     -- Default configuration for builtin pickers goes here:
@@ -174,6 +196,10 @@ require('telescope').setup{
     -- }
     -- Now the picker_config_key will be applied every time you call this
     -- builtin picker
+    find_files = {
+      theme = "dropdown",
+      hidden = true,
+    },
   },
   extensions = {
     -- Your extension configuration goes here:
@@ -212,7 +238,7 @@ require('nvim-treesitter.configs').setup({
     disable = { "c", "rust" },
     -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
     disable = function(lang, buf)
-        local max_filesize = 100 * 1024 -- 100 KB
+        local max_filesize = 1000 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then
             return true
